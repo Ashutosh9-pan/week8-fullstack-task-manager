@@ -1,0 +1,12 @@
+# Backend secrets
+backend/src/main/resources/application.properties
+# Build files
+backend/target/
+frontend/node_modules/
+frontend/dist/
+# IDE / OS
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
