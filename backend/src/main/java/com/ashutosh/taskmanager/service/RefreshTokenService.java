@@ -15,7 +15,7 @@ public class RefreshTokenService {
 
     public RefreshTokenService(
             RefreshTokenRepository repository,
-            @Value("\${jwt.refresh-expiration:604800000}") String expirationValue) {
+            @Value("${jwt.refresh-expiration:604800000}") String expirationValue) {
         this.repository = repository;
         this.expirationMillis = parseExpiration(expirationValue);
     }
