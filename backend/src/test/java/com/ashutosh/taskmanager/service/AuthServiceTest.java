@@ -5,6 +5,7 @@ import com.ashutosh.taskmanager.dto.LoginRequest;
 import com.ashutosh.taskmanager.dto.RegisterRequest;
 import com.ashutosh.taskmanager.entity.RefreshToken;
 import com.ashutosh.taskmanager.entity.User;
+import com.ashutosh.taskmanager.exception.TooManyRequestsException;
 import com.ashutosh.taskmanager.repository.UserRepository;
 import com.ashutosh.taskmanager.security.AuthRateLimiter;
 import com.ashutosh.taskmanager.security.JwtService;
@@ -41,7 +42,6 @@ class AuthServiceTest {
                 refreshTokenService,
                 rateLimiter
         );
-        when(rateLimiter.allow(anyString())).thenReturn(true);
     }
 
     @Test
@@ -51,6 +51,7 @@ class AuthServiceTest {
         request.setEmail("ASHUTOSH@EXAMPLE.COM");
         request.setPassword("password123");
 
+        when(rateLimiter.allow("ashutosh@example.com")).thenReturn(true);
         when(userRepository.existsByEmail("ashutosh@example.com")).thenReturn(false);
         when(passwordEncoder.encode("password123")).thenReturn("hashed-password");
 
@@ -85,6 +86,7 @@ class AuthServiceTest {
         request.setEmail("user@example.com");
         request.setPassword("wrong");
 
+        when(rateLimiter.allow("user@example.com")).thenReturn(true);
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrong", "stored-hash")).thenReturn(false);
 
@@ -126,8 +128,8 @@ class AuthServiceTest {
         request.setEmail("user@example.com");
         request.setPassword("password123");
 
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
+        TooManyRequestsException ex = assertThrows(
+                TooManyRequestsException.class,
                 () -> authService.register(request));
 
         assertEquals("Too many authentication attempts. Try again later.", ex.getMessage());
