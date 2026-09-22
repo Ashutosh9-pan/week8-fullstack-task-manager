@@ -4,6 +4,14 @@ TaskFlow is a modern full-stack task management application built with **React, 
 
 It provides secure user authentication, user-specific task management, complete CRUD functionality, task filtering, task completion, and a responsive dark-themed dashboard.
 
+## 🌐 Live Demo
+
+**Frontend:** https://week8-fullstack-task-manager.onrender.com
+
+**Backend API:** https://taskflow-backend-3j3q.onrender.com
+
+> The live application is deployed on Render with PostgreSQL hosted on Neon.
+
 ---
 
 ## ✨ Features
@@ -74,12 +82,19 @@ It provides secure user authentication, user-specific task management, complete 
 
 - PostgreSQL
 - Flyway
+- Neon PostgreSQL for production
+
+### Deployment
+
+- Render
+- Docker
+- Vite production build
 
 ---
 
 ## 🏗️ Architecture
 
-~~~~text
+```text
                     React Frontend
                     Vite + React
                          |
@@ -100,13 +115,13 @@ It provides secure user authentication, user-specific task management, complete 
               |
               v
           PostgreSQL
-~~~~
+```
 
 ---
 
 ## 🔑 Authentication Flow
 
-~~~~text
+```text
 User
  |
  +--> Register
@@ -131,7 +146,7 @@ User
                  |
                  v
           Protected Task APIs
-~~~~
+```
 
 ---
 
@@ -139,7 +154,7 @@ User
 
 Each authenticated user can access only the tasks associated with their account.
 
-~~~~text
+```text
 JWT Token
     |
     v
@@ -156,7 +171,7 @@ Task Repository
     |
     v
 Only That User's Tasks
-~~~~
+```
 
 ---
 
@@ -205,7 +220,7 @@ Adds the relationship between tasks and users using `user_id`.
 
 ## 📁 Project Structure
 
-~~~~text
+```text
 week8-fullstack-task-manager/
 │
 ├── backend/
@@ -226,9 +241,8 @@ week8-fullstack-task-manager/
 │   │   │
 │   │   └── test/
 │   │
-│   ├── pom.xml
-│   ├── mvnw
-│   └── mvnw.cmd
+│   ├── Dockerfile
+│   └── pom.xml
 │
 ├── frontend/
 │   ├── src/
@@ -257,7 +271,7 @@ week8-fullstack-task-manager/
 │
 ├── .gitignore
 └── README.md
-~~~~
+```
 
 ---
 
@@ -265,10 +279,10 @@ week8-fullstack-task-manager/
 
 ### 1. Clone the Repository
 
-~~~~bash
+```bash
 git clone https://github.com/Ashutosh9-pan/week8-fullstack-task-manager.git
 cd week8-fullstack-task-manager
-~~~~
+```
 
 ---
 
@@ -276,9 +290,9 @@ cd week8-fullstack-task-manager
 
 Navigate to the backend:
 
-~~~~bash
+```bash
 cd backend
-~~~~
+```
 
 Create your local configuration file:
 
@@ -288,9 +302,9 @@ Use `application-example.properties` as the template and provide your own Postgr
 
 Run the backend:
 
-~~~~bash
+```bash
 mvn spring-boot:run
-~~~~
+```
 
 Backend:
 
@@ -302,23 +316,36 @@ Backend:
 
 Open another terminal:
 
-~~~~bash
+```bash
 cd frontend
-~~~~
+```
 
 Install dependencies:
 
-~~~~bash
+```bash
 npm install
-~~~~
+```
 
 Start the frontend:
 
-~~~~bash
+```bash
 npm run dev
-~~~~
+```
 
 Open the Vite URL displayed in the terminal.
+
+---
+
+## ☁️ Production Deployment
+
+The application is deployed as a separate frontend and backend service.
+
+- **Frontend:** Render Static Site
+- **Backend:** Render Web Service using Docker
+- **Database:** Neon PostgreSQL
+- **Frontend production API URL:** configured with `VITE_API_URL`
+- **SPA routing:** Render rewrite from `/*` to `/index.html`
+- **CORS:** configured for the production frontend origin
 
 ---
 
@@ -347,15 +374,11 @@ Secure login interface for existing users.
 
 ![TaskFlow Login](docs/screenshots/01-login.png)
 
----
-
 ## 2. Register
 
 New users can create a TaskFlow account.
 
 ![TaskFlow Register](docs/screenshots/02-register.png)
-
----
 
 ## 3. Dashboard
 
@@ -363,15 +386,11 @@ Main dashboard with workspace statistics and task creation form.
 
 ![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
 
----
-
 ## 4. All Tasks
 
 Displays all tasks belonging to the authenticated user.
 
 ![All Tasks](docs/screenshots/04-all-tasks.png)
-
----
 
 ## 5. Completed Task
 
@@ -379,23 +398,17 @@ Tasks can be marked as completed using the check button.
 
 ![Completed Task](docs/screenshots/05-completed-task.png)
 
----
-
 ## 6. Task Actions
 
 Each task provides edit and delete controls.
 
 ![Task Actions](docs/screenshots/06-task-actions.png)
 
----
-
 ## 7. Active Filter
 
 The Active filter displays only incomplete tasks.
 
 ![Active Filter](docs/screenshots/07-active-filter.png)
-
----
 
 ## 8. Edit Task
 
@@ -409,14 +422,14 @@ Tasks can be edited directly from the dashboard.
 
 Run the backend test suite:
 
-~~~~bash
+```bash
 cd backend
 mvn clean test
-~~~~
+```
 
 The backend test suite verifies successful application-context loading.
 
-The following workflows were also manually tested:
+The following workflows were manually tested locally and on the deployed application:
 
 - User registration
 - User login
@@ -435,7 +448,7 @@ The following workflows were also manually tested:
 
 ## 🔄 Core Workflow
 
-~~~~text
+```text
 Register
    |
    v
@@ -458,7 +471,7 @@ Dashboard
    +--> Filter Tasks
    |
    +--> Delete Task
-~~~~
+```
 
 ---
 
@@ -480,6 +493,7 @@ This project demonstrates practical experience with:
 - CRUD operations
 - Responsive UI development
 - Git and GitHub workflow
+- Production deployment
 
 ---
 
@@ -492,9 +506,7 @@ This project demonstrates practical experience with:
 - Categories and tags
 - Refresh tokens
 - Notifications
-- Docker support
 - Automated integration testing
-- Production deployment
 
 ---
 
@@ -502,6 +514,9 @@ This project demonstrates practical experience with:
 
 **GitHub:**  
 https://github.com/Ashutosh9-pan/week8-fullstack-task-manager
+
+**Live Demo:**  
+https://week8-fullstack-task-manager.onrender.com
 
 ---
 
