@@ -48,7 +48,7 @@ public class TaskService {
 
     public Task getTaskById(Long id, String email) {
         User user = getUserByEmail(email);
-        return taskRepository.findByIdAndUser(id, user)
+        return taskRepository.findByIdAndUserOrAssigneeEmailIgnoreCase(id, user, email)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found with id: " + id));
     }
 
@@ -102,10 +102,10 @@ public class TaskService {
             case "priority" -> Comparator.comparingInt(
                     task -> priorityWeight(task.getPriority()));
             case "created" -> Comparator.comparing(
-                    Task::getCreatedAt,
+                    (Task task) -> task.getCreatedAt(),
                     Comparator.nullsLast(Comparator.reverseOrder()));
             case "title" -> Comparator.comparing(
-                    task -> task.getTitle().toLowerCase(Locale.ROOT));
+                    (Task task) -> task.getTitle().toLowerCase(Locale.ROOT));
             default -> Comparator.comparing(
                     Task::getPosition,
                     Comparator.nullsLast(Comparator.naturalOrder()));
