@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   createTask,
   deleteTask,
@@ -50,14 +51,8 @@ function emptyTaskInput(): TaskInput {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const storedUser = JSON.parse(localStorage.getItem("user") || "{}") as Partial<User>;
-  const user = {
-    userId: storedUser.userId || 0,
-    name: storedUser.name || "User",
-    email: storedUser.email || "",
-    role: storedUser.role || "USER",
-  } as User;
+  const { user: authUser, token, signOut } = useAuth();
+  const user = authUser || { userId: 0, name: "User", email: "", role: "USER" };
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [form, setForm] = useState<TaskInput>(emptyTaskInput());
@@ -278,7 +273,7 @@ export default function Dashboard() {
   };
 
   const handleLogout = async () => {
-    await logoutUser();
+    await signOut();
     navigate("/login");
   };
 
