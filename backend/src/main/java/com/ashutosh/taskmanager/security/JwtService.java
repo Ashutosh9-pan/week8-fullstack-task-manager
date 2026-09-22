@@ -15,8 +15,8 @@ public class JwtService {
     private final long expiration;
 
     public JwtService(
-            @Value("\${jwt.secret}") String secret,
-            @Value("\${jwt.expiration:86400000}") String expirationValue) {
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.expiration:86400000}") String expirationValue) {
         if (secret == null || secret.isBlank()) {
             throw new IllegalStateException("jwt.secret is missing or empty");
         }
