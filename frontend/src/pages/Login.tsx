@@ -1,28 +1,27 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { loginUser } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 import type { AuthResponse } from "../types";
+
+type LoginForm = { email: string; password: string };
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const { signIn } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+    mode: "onBlur",
+  });
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const onSubmit = async (form: LoginForm) => {
     setError("");
     setLoading(true);
     try {
       const data = (await loginUser(form)) as AuthResponse;
-      localStorage.setItem("token", data.accessToken || data.token);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("user", JSON.stringify({
-        userId: data.userId,
-        name: data.name,
-        email: data.email,
-        role: data.role,
-      }));
+      signIn(data);
       navigate("/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to sign in");
@@ -37,27 +36,28 @@ export default function Login() {
         <div className="brand">TaskFlow</div>
         <h1>Welcome back</h1>
         <p className="subtitle">Sign in to manage your tasks.</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="login-email">Email</label>
           <input
             id="login-email"
             type="email"
             autoComplete="email"
             placeholder="you@example.com"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: { value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, message: "Enter a valid email" },
+            })}
           />
+          {errors.email && <div className="field-error">{errors.email.message}</div>}
           <label htmlFor="login-password">Password</label>
           <input
             id="login-password"
             type="password"
             autoComplete="current-password"
             placeholder="••••••••"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
+            {...register("password", { required: "Password is required" })}
           />
+          {errors.password && <div className="field-error">{errors.password.message}</div>}
           {error && <div className="error-box">{error}</div>}
           <button className="primary-btn" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}
