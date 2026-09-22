@@ -82,7 +82,7 @@ export default function Register() {
               maxLength: { value: 72, message: "Password must be 72 characters or less" },
             })}
           />
-          {password && <div className="password-hint">Password strength: {"Weak", "Fair", "Good", "Strong"}[passwordStrength - 1] || "Weak"}</div>}
+          {password && <div className="password-hint">Password strength: {["Weak", "Fair", "Good", "Strong"][passwordStrength - 1] || "Weak"}</div>}
           {errors.password && <div className="field-error">{errors.password.message}</div>}
           {error && <div className="error-box">{error}</div>}
           <button className="primary-btn" disabled={loading}>
