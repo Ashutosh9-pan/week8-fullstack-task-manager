@@ -33,7 +33,7 @@ public class TaskService {
     public List<Task> getAllTasks(String email, String q, String status, String priority, String sort) {
         User user = getUserByEmail(email);
         String query = q == null ? "" : q.trim().toLowerCase(Locale.ROOT);
-        return taskRepository.findByUser(user).stream()
+        return taskRepository.findByUserOrAssigneeEmailIgnoreCase(user, email).stream()
                 .filter(task -> query.isEmpty()
                         || task.getTitle().toLowerCase(Locale.ROOT).contains(query)
                         || (task.getDescription() != null
