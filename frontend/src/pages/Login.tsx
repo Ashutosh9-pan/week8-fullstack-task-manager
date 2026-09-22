@@ -45,7 +45,7 @@ export default function Login() {
             placeholder="you@example.com"
             {...register("email", {
               required: "Email is required",
-              pattern: { value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, message: "Enter a valid email" },
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email" },
             })}
           />
           {errors.email && <div className="field-error">{errors.email.message}</div>}
