@@ -10,3 +10,5 @@ frontend/dist/
 *.iml
 .DS_Store
 Thumbs.db
+.env
+
