@@ -1,8 +1,8 @@
 # 🚀 TaskFlow — Full-Stack Task Manager
 
-TaskFlow is a modern full-stack task management application built with **React, Spring Boot, PostgreSQL, JWT authentication, and Flyway**.
+TaskFlow is a production-style full-stack task management application built with **React + TypeScript, Spring Boot, PostgreSQL, JWT, Flyway, WebSocket, Tailwind CSS, and Docker**.
 
-It provides secure user authentication, user-specific task management, complete CRUD functionality, task filtering, task completion, and a responsive dark-themed dashboard.
+It supports secure authentication, refresh-token sessions, user-specific and collaborative tasks, CRUD workflows, Kanban drag-and-drop, search/filter/sort, due reminders, offline caching, real-time updates, role-based authorization, API documentation, testing, and responsive dark/light UI.
 
 ## 🌐 Live Demo
 
@@ -10,111 +10,142 @@ It provides secure user authentication, user-specific task management, complete 
 
 **Backend API:** https://taskflow-backend-3j3q.onrender.com
 
-> The live application is deployed on Render with PostgreSQL hosted on Neon.
+**API Docs:** https://taskflow-backend-3j3q.onrender.com/swagger-ui.html
+
+**Project Documentation:** [docs/PROJECT_DOCUMENTATION.md](docs/PROJECT_DOCUMENTATION.md)
+
+> Production is deployed with Render + Neon PostgreSQL. The repository also includes a Docker Compose stack for local development.
 
 ---
 
 ## ✨ Features
 
-### 🔐 Authentication
-
-- User registration
-- User login
-- JWT-based authentication
+### 🔐 Authentication & Security
+- User registration and login
+- JWT access tokens
+- Rotating refresh tokens with logout/revocation
 - BCrypt password hashing
-- Protected task APIs
-- Stateless Spring Security configuration
+- Stateless Spring Security
+- Role-based authorization with USER / ADMIN roles
+- Authentication rate limiting
+- Request validation and global error handling
+- Correlation IDs for request tracing
+- CORS configuration
+- JPA-backed queries to avoid SQL string concatenation
+- React output escaping for XSS-safe rendering
 
 ### ✅ Task Management
+- Create, read, update, and delete tasks
+- Task status: To Do / In Progress / Done
+- Priority: High / Medium / Low
+- Due dates and in-app due reminders
+- Categories/tags
+- Collaborative assignment by email
+- Search by title or description
+- Status and priority filters
+- Sorting by custom position, due date, priority, creation time, or title
+- Kanban drag-and-drop between status columns
+- Optimistic UI updates for task actions
+- User-specific ownership with assignee access
 
-- Create tasks
-- View tasks
-- Edit tasks
-- Delete tasks
-- Mark tasks as completed
-- Active and completed task states
-- All / Active / Completed filters
-- User-specific task isolation
+### ⚡ Real-Time & Offline UX
+- Native WebSocket endpoint at `/ws/tasks`
+- Task change broadcasts trigger live task refreshes
+- Offline mode with cached task data
+- Online/offline connection indicator
+- PWA manifest and service worker
+- Browser notification permission support
+- Keyboard shortcuts: `N` for new task, `/` for search, `Esc` to close reminders
 
 ### 🎨 Frontend
-
-- Modern dark-themed UI
-- Responsive dashboard
-- React Router navigation
-- Interactive task cards
-- Edit and delete actions
-- Task completion toggle
-- Live UI updates after CRUD operations
+- React + TypeScript
+- React Router
+- React Context API
+- React Hook Form validation
+- Tailwind CSS utility layer + custom responsive styling
+- Error boundary and loading/error states
+- Dark/light theme
+- Responsive Kanban board
+- Accessible labels, titles, and keyboard-friendly interactions
 
 ### 🗄️ Backend & Database
-
-- RESTful Spring Boot APIs
-- Spring Security integration
-- JWT authentication
+- Spring Boot REST API
+- Spring Security
 - Spring Data JPA
-- PostgreSQL persistence
-- Flyway database migrations
-- User-to-task relationship
+- PostgreSQL
+- Flyway migrations
+- Refresh-token persistence
+- Spring WebSocket
+- OpenAPI / Swagger UI
+- Actuator health endpoint
+- Correlation ID logging
+
+### 🐳 Deployment & DevOps
+- Multi-stage backend Docker build
+- Frontend Docker/Nginx build
+- Docker Compose local stack
+- Render production deployment
+- Neon PostgreSQL production database
+- Environment-variable based production configuration
+- GitHub Actions CI for backend and frontend
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-
-- React
+- React 19
+- TypeScript
 - Vite
 - React Router
-- JavaScript
-- CSS
+- React Hook Form
+- Tailwind CSS
+- Native WebSocket API
 
 ### Backend
-
 - Java 21
 - Spring Boot 4.1.1
-- Spring Web
 - Spring Security
 - Spring Data JPA
 - Bean Validation
 - JJWT
+- Spring WebSocket
+- Springdoc OpenAPI
 
-### Database
-
+### Database & Infrastructure
 - PostgreSQL
 - Flyway
-- Neon PostgreSQL for production
-
-### Deployment
-
-- Render
 - Docker
-- Vite production build
+- Nginx
+- Render
+- Neon PostgreSQL
+
+### Testing
+- JUnit / Spring Boot Test
+- Vitest
+- React Testing Library
+- GitHub Actions CI
 
 ---
 
 ## 🏗️ Architecture
 
 ```text
-                    React Frontend
-                    Vite + React
-                         |
-                         | HTTP / REST
-                         | JWT Bearer Token
-                         v
-                 Spring Boot Backend
-                         |
-              +----------+----------+
-              |                     |
-         Controllers             Security
-              |                     |
-              v                     v
-          Services             JWT Filter
-              |
-              v
-         Repositories
-              |
-              v
-          PostgreSQL
+React + TypeScript
+      |
+      | REST + JWT
+      | WebSocket
+      v
+Spring Boot API
+  |      |      |
+  |      |      +--> Spring Security / JWT / Refresh Tokens
+  |      +---------> WebSocket / Real-time Events
+  v
+Service Layer
+  |
+Repository Layer
+  |
+PostgreSQL + Flyway
 ```
 
 ---
@@ -122,99 +153,64 @@ It provides secure user authentication, user-specific task management, complete 
 ## 🔑 Authentication Flow
 
 ```text
-User
- |
- +--> Register
- |       |
- |       +--> BCrypt Password Hash
- |       |
- |       +--> Save User
- |       |
- |       +--> Generate JWT
- |
- +--> Login
-         |
-         +--> Validate Credentials
-         |
-         +--> Generate JWT
-                 |
-                 v
-             React Client
-                 |
-                 v
-       Authorization: Bearer <JWT>
-                 |
-                 v
-          Protected Task APIs
-```
-
----
-
-## 👤 User-Specific Task Flow
-
-Each authenticated user can access only the tasks associated with their account.
-
-```text
-JWT Token
-    |
-    v
-Authenticated User
-    |
-    v
-Extract Email
-    |
-    v
-Find User
-    |
-    v
-Task Repository
-    |
-    v
-Only That User's Tasks
+Register / Login
+       |
+       +--> BCrypt password verification
+       |
+       +--> Access JWT
+       |
+       +--> Refresh Token
+              |
+              v
+       React local session
+              |
+              +--> 401 response
+                      |
+                      +--> POST /api/auth/refresh
+                              |
+                              +--> New Access + Refresh Token
 ```
 
 ---
 
 ## 🔌 REST API
 
-### Authentication Endpoints
-
+### Authentication
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive JWT |
+| POST | `/api/auth/register` | Register a user |
+| POST | `/api/auth/login` | Login and issue access + refresh tokens |
+| POST | `/api/auth/refresh` | Rotate refresh token and issue new tokens |
+| POST | `/api/auth/logout` | Revoke refresh token |
 
-### Task Endpoints
-
-| Method | Endpoint | Authentication |
+### Tasks
+| Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/tasks` | JWT Required |
-| GET | `/api/tasks/{id}` | JWT Required |
-| POST | `/api/tasks` | JWT Required |
-| PUT | `/api/tasks/{id}` | JWT Required |
-| DELETE | `/api/tasks/{id}` | JWT Required |
+| GET | `/api/tasks` | List accessible tasks with search/filter/sort |
+| GET | `/api/tasks/{id}` | Get one accessible task |
+| POST | `/api/tasks` | Create task |
+| PUT | `/api/tasks/{id}` | Update task, status, priority, due date, order, or assignment |
+| DELETE | `/api/tasks/{id}` | Delete task |
+
+### Admin
+| Method | Endpoint | Access |
+|---|---|---|
+| GET | `/api/admin/users` | ADMIN role |
+
+### WebSocket
+- `ws://localhost:8080/ws/tasks`
+- Production: `wss://taskflow-backend-3j3q.onrender.com/ws/tasks`
 
 ---
 
 ## 🗃️ Database Migrations
 
-### V1 — Initial Tasks
-
-`V1__init.sql`
-
-Creates the initial `tasks` table.
-
-### V2 — Users
-
-`V2__create_users.sql`
-
-Creates the `users` table for authentication.
-
-### V3 — User Task Relationship
-
-`V3__link_tasks_to_users.sql`
-
-Adds the relationship between tasks and users using `user_id`.
+- **V1** — Initial `tasks` table
+- **V2** — `users` table
+- **V3** — Link tasks to users
+- **V4** — Task status, priority, due date, position, category, assignee
+- **V5** — Refresh token storage
+- **V6** — User roles
 
 ---
 
@@ -222,301 +218,145 @@ Adds the relationship between tasks and users using `user_id`.
 
 ```text
 week8-fullstack-task-manager/
-│
 ├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/ashutosh/taskmanager/
-│   │   │   │   ├── config/
-│   │   │   │   ├── controller/
-│   │   │   │   ├── dto/
-│   │   │   │   ├── entity/
-│   │   │   │   ├── repository/
-│   │   │   │   ├── security/
-│   │   │   │   └── service/
-│   │   │   │
-│   │   │   └── resources/
-│   │   │       ├── db/migration/
-│   │   │       └── application-example.properties
-│   │   │
-│   │   └── test/
-│   │
+│   ├── src/main/java/com/ashutosh/taskmanager/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   ├── entity/
+│   │   ├── exception/
+│   │   ├── repository/
+│   │   ├── security/
+│   │   └── service/
+│   ├── src/main/resources/
+│   │   ├── db/migration/
+│   │   └── application-example.properties
 │   ├── Dockerfile
 │   └── pom.xml
-│
 ├── frontend/
 │   ├── src/
+│   │   ├── components/
+│   │   ├── context/
 │   │   ├── pages/
 │   │   ├── services/
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   ├── index.css
-│   │   └── main.jsx
-│   │
+│   │   ├── App.tsx
+│   │   ├── App.test.tsx
+│   │   ├── main.tsx
+│   │   └── types.ts
 │   ├── public/
+│   ├── Dockerfile
+│   ├── nginx.conf
 │   ├── package.json
-│   ├── package-lock.json
-│   └── vite.config.js
-│
+│   ├── tsconfig.json
+│   └── vitest.config.ts
 ├── docs/
+│   ├── PROJECT_DOCUMENTATION.md
 │   └── screenshots/
-│       ├── 01-login.png
-│       ├── 02-register.png
-│       ├── 03-dashboard.png
-│       ├── 04-all-tasks.png
-│       ├── 05-completed-task.png
-│       ├── 06-task-actions.png
-│       ├── 07-active-filter.png
-│       └── 08-edit-task.png
-│
-├── .gitignore
+├── .github/workflows/ci.yml
+├── docker-compose.yml
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Local Development
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Ashutosh9-pan/week8-fullstack-task-manager.git
-cd week8-fullstack-task-manager
-```
-
----
-
-## ⚙️ Backend Setup
-
-Navigate to the backend:
+### Option 1 — Docker Compose
 
 ```bash
-cd backend
+docker compose up --build
 ```
 
-Create your local configuration file:
+Frontend: http://localhost:5173  
+Backend: http://localhost:8080  
+Swagger UI: http://localhost:8080/swagger-ui.html
 
-`src/main/resources/application.properties`
-
-Use `application-example.properties` as the template and provide your own PostgreSQL credentials and JWT secret.
-
-Run the backend:
-
-```bash
-mvn spring-boot:run
-```
+### Option 2 — Manual
 
 Backend:
 
-`http://localhost:8080`
+```bash
+cd backend
+mvn spring-boot:run
+```
 
----
-
-## 💻 Frontend Setup
-
-Open another terminal:
+Frontend:
 
 ```bash
 cd frontend
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Start the frontend:
-
-```bash
 npm run dev
 ```
 
-Open the Vite URL displayed in the terminal.
-
----
-
-## ☁️ Production Deployment
-
-The application is deployed as a separate frontend and backend service.
-
-- **Frontend:** Render Static Site
-- **Backend:** Render Web Service using Docker
-- **Database:** Neon PostgreSQL
-- **Frontend production API URL:** configured with `VITE_API_URL`
-- **SPA routing:** Render rewrite from `/*` to `/index.html`
-- **CORS:** configured for the production frontend origin
-
----
-
-## 🔒 Security
-
-The application implements:
-
-- BCrypt password hashing
-- JWT-based authentication
-- Protected task endpoints
-- Stateless authentication
-- User-specific task authorization
-- CORS configuration
-- Sensitive configuration excluded from Git
-- Example configuration without real secrets
-
-Sensitive credentials should never be committed to the repository.
-
----
-
-# 📸 Screenshots
-
-## 1. Login
-
-Secure login interface for existing users.
-
-![TaskFlow Login](docs/screenshots/01-login.png)
-
-## 2. Register
-
-New users can create a TaskFlow account.
-
-![TaskFlow Register](docs/screenshots/02-register.png)
-
-## 3. Dashboard
-
-Main dashboard with workspace statistics and task creation form.
-
-![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
-
-## 4. All Tasks
-
-Displays all tasks belonging to the authenticated user.
-
-![All Tasks](docs/screenshots/04-all-tasks.png)
-
-## 5. Completed Task
-
-Tasks can be marked as completed using the check button.
-
-![Completed Task](docs/screenshots/05-completed-task.png)
-
-## 6. Task Actions
-
-Each task provides edit and delete controls.
-
-![Task Actions](docs/screenshots/06-task-actions.png)
-
-## 7. Active Filter
-
-The Active filter displays only incomplete tasks.
-
-![Active Filter](docs/screenshots/07-active-filter.png)
-
-## 8. Edit Task
-
-Tasks can be edited directly from the dashboard.
-
-![Edit Task](docs/screenshots/08-edit-task.png)
+Create `backend/src/main/resources/application.properties` from `application-example.properties` and provide your own local database credentials and JWT secret.
 
 ---
 
 ## 🧪 Testing
 
-Run the backend test suite:
+Backend:
 
 ```bash
 cd backend
 mvn clean test
 ```
 
-The backend test suite verifies successful application-context loading.
+Frontend:
 
-The following workflows were manually tested locally and on the deployed application:
-
-- User registration
-- User login
-- JWT authentication
-- Protected task access
-- Task creation
-- Task retrieval
-- Task editing
-- Task completion
-- Task deletion
-- Task filtering
-- User-specific task access
-- Logout and login persistence
-
----
-
-## 🔄 Core Workflow
-
-```text
-Register
-   |
-   v
-Login
-   |
-   v
-JWT Token
-   |
-   v
-Dashboard
-   |
-   +--> Create Task
-   |
-   +--> View Tasks
-   |
-   +--> Edit Task
-   |
-   +--> Complete Task
-   |
-   +--> Filter Tasks
-   |
-   +--> Delete Task
+```bash
+cd frontend
+npm install
+npm run typecheck
+npm test
+npm run build
 ```
 
----
-
-## 🎯 Learning Outcomes
-
-This project demonstrates practical experience with:
-
-- Full-stack application development
-- React frontend development
-- Spring Boot REST APIs
-- Spring Security
-- JWT authentication
-- BCrypt password hashing
-- Spring Data JPA
-- PostgreSQL
-- Flyway migrations
-- REST API integration
-- User-based authorization
-- CRUD operations
-- Responsive UI development
-- Git and GitHub workflow
-- Production deployment
+GitHub Actions runs backend tests plus frontend typecheck, tests, and production build on pushes and pull requests to `main`.
 
 ---
 
-## 🔮 Future Enhancements
+## ☁️ Production Deployment
 
-- Task priorities
-- Due dates
-- Search and sorting
-- Pagination
-- Categories and tags
-- Refresh tokens
-- Notifications
-- Automated integration testing
+- **Frontend:** Render Static Site
+- **Backend:** Render Docker Web Service
+- **Database:** Neon PostgreSQL
+- **Frontend API configuration:** `VITE_API_URL`
+- **SPA rewrite:** Render `/* → /index.html`
+- **WebSocket:** `/ws/tasks`
+- **Health:** Spring Boot Actuator `/actuator/health`
+- **API docs:** Swagger UI via springdoc
 
 ---
 
-## 🔗 Repository
+## 🔒 Security Notes
 
-**GitHub:**  
-https://github.com/Ashutosh9-pan/week8-fullstack-task-manager
+Never commit:
+- database passwords
+- JWT secrets
+- refresh tokens
+- local `application.properties`
 
-**Live Demo:**  
-https://week8-fullstack-task-manager.onrender.com
+Production configuration is supplied through environment variables.
+
+---
+
+## 📸 Screenshots
+
+![TaskFlow Login](docs/screenshots/01-login.png)
+
+![TaskFlow Register](docs/screenshots/02-register.png)
+
+![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
+
+![TaskFlow All Tasks](docs/screenshots/04-all-tasks.png)
+
+![TaskFlow Completed Task](docs/screenshots/05-completed-task.png)
+
+![TaskFlow Task Actions](docs/screenshots/06-task-actions.png)
+
+![TaskFlow Active Filter](docs/screenshots/07-active-filter.png)
+
+![TaskFlow Edit Task](docs/screenshots/08-edit-task.png)
 
 ---
 
@@ -524,10 +364,7 @@ https://week8-fullstack-task-manager.onrender.com
 
 **Ashutosh Panwar**
 
-GitHub:  
-https://github.com/Ashutosh9-pan
-
----
+GitHub: https://github.com/Ashutosh9-pan
 
 ## 📄 License
 
