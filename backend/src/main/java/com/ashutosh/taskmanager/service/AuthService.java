@@ -11,6 +11,7 @@ import com.ashutosh.taskmanager.security.AuthRateLimiter;
 import com.ashutosh.taskmanager.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService {
@@ -33,6 +34,7 @@ public class AuthService {
         this.rateLimiter = rateLimiter;
     }
 
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
         guard(request.getEmail());
         String email = request.getEmail().trim().toLowerCase();
@@ -50,6 +52,7 @@ public class AuthService {
         return buildResponse(savedUser);
     }
 
+    @Transactional
     public AuthResponse login(LoginRequest request) {
         guard(request.getEmail());
         String email = request.getEmail().trim().toLowerCase();
@@ -63,12 +66,14 @@ public class AuthService {
         return buildResponse(user);
     }
 
+    @Transactional
     public AuthResponse refresh(String refreshToken) {
         User user = refreshTokenService.validate(refreshToken);
         refreshTokenService.revoke(refreshToken);
         return buildResponse(user);
     }
 
+    @Transactional
     public void logout(String refreshToken) {
         refreshTokenService.revoke(refreshToken);
     }
