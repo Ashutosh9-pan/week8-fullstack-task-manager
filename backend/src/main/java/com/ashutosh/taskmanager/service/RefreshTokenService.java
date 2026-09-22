@@ -5,6 +5,7 @@ import com.ashutosh.taskmanager.entity.User;
 import com.ashutosh.taskmanager.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class RefreshTokenService {
         this.expirationMillis = parseExpiration(expirationValue);
     }
 
+    @Transactional
     public RefreshToken create(User user) {
         repository.deleteByUser(user);
         RefreshToken token = new RefreshToken();
@@ -29,6 +31,7 @@ public class RefreshTokenService {
         return repository.save(token);
     }
 
+    @Transactional
     public User validate(String token) {
         RefreshToken stored = repository.findByToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
@@ -39,6 +42,7 @@ public class RefreshTokenService {
         return stored.getUser();
     }
 
+    @Transactional
     public void revoke(String token) {
         repository.deleteByToken(token);
     }
