@@ -5,7 +5,6 @@ import {
   createTask,
   deleteTask,
   getTasks,
-  logoutUser,
   updateTask,
 } from "../services/api";
 import type { Task, TaskInput, TaskPriority, TaskStatus, User } from "../types";
