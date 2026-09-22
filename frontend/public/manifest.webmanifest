@@ -1,0 +1,10 @@
+{
+  "name": "TaskFlow — Full-Stack Task Manager",
+  "short_name": "TaskFlow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#111118",
+  "description": "A full-stack task manager with secure authentication, real-time updates and offline support.",
+  "icons": []
+}
