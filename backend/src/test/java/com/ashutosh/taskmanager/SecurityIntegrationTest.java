@@ -31,13 +31,13 @@ class SecurityIntegrationTest {
     @Test
     void taskEndpointsRequireAuthentication() throws Exception {
         mockMvc.perform(get("/api/tasks"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
     void adminEndpointsRequireAuthentication() throws Exception {
         mockMvc.perform(get("/api/admin/users"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
