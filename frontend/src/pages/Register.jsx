@@ -67,7 +67,7 @@ function Register() {
           <input
             type="password"
             name="password"
-            placeholder="••••••••"
+            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
             value={form.password}
             onChange={handleChange}
             required

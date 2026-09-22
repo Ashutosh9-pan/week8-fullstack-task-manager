@@ -328,7 +328,7 @@ function Dashboard() {
                           title="Cancel edit"
                           type="button"
                         >
-                          ×
+                          Ã—
                         </button>
                       </div>
                       <input
