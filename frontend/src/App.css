@@ -439,3 +439,306 @@ textarea {
     padding: 28px;
   }
 }
+
+
+select {
+  width: 100%;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  background: #111118;
+  color: #fff;
+  padding: 13px 15px;
+  outline: none;
+}
+select:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+}
+.password-hint {
+  color: #a78bfa;
+  font-size: 12px;
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.notification-btn {
+  position: relative;
+}
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+.role-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #ddd6fe;
+  background: rgba(124, 58, 237, 0.18);
+}
+.notifications-panel {
+  position: absolute;
+  top: 74px;
+  right: 5vw;
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: #111118;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  z-index: 30;
+}
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.notifications-header .secondary-btn {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.notification-item small {
+  color: #a1a1aa;
+  text-align: right;
+}
+.danger-text, .due-date.overdue {
+  color: #fca5a5 !important;
+}
+.offline-banner {
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  border: 1px solid rgba(251, 191, 36, .25);
+  border-radius: 10px;
+  background: rgba(120, 53, 15, .2);
+  color: #fde68a;
+  font-size: 13px;
+}
+.tools-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(150px, 190px));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.search-wrap input {
+  height: 100%;
+}
+.kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.kanban-column {
+  min-height: 420px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 18px;
+  background: rgba(17,17,27,.54);
+}
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 2px 12px;
+}
+.column-header > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.column-header h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.column-header > span {
+  color: #71717a;
+  font-size: 12px;
+}
+.column-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+.column-body {
+  display: grid;
+  gap: 10px;
+  min-height: 360px;
+}
+.kanban-column:nth-child(2) .column-dot {
+  background: #f59e0b;
+}
+.kanban-column:nth-child(3) .column-dot {
+  background: #22c55e;
+}
+.task-card {
+  cursor: grab;
+}
+.task-card:active {
+  cursor: grabbing;
+}
+.task-card.dragging {
+  opacity: .45;
+  transform: rotate(1deg);
+}
+.task-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+.priority-badge, .meta-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+.priority-badge {
+  border: 1px solid rgba(255,255,255,.08);
+  background: #18181b;
+}
+.priority-high {
+  color: #fca5a5;
+  border-color: rgba(239,68,68,.25);
+}
+.priority-medium {
+  color: #fde68a;
+  border-color: rgba(245,158,11,.25);
+}
+.priority-low {
+  color: #86efac;
+  border-color: rgba(34,197,94,.25);
+}
+.meta-chip {
+  color: #c4b5fd;
+  background: rgba(124,58,237,.12);
+}
+.assignee {
+  margin-top: 10px;
+  color: #71717a;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.due-date {
+  margin-top: 10px;
+  color: #a1a1aa;
+  font-size: 11px;
+}
+.due-date.soon {
+  color: #fde68a;
+}
+.drop-placeholder {
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed #27272a;
+  border-radius: 14px;
+  color: #52525b;
+  font-size: 12px;
+}
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+}
+[data-theme="light"] body {
+  color: #111827;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc 55%, #e0e7ff);
+}
+[data-theme="light"] .topbar,
+[data-theme="light"] .auth-card,
+[data-theme="light"] .create-card,
+[data-theme="light"] .tools-card,
+[data-theme="light"] .task-card,
+[data-theme="light"] .kanban-column,
+[data-theme="light"] .task-count {
+  background: rgba(255,255,255,.88);
+  color: #111827;
+  border-color: rgba(15,23,42,.09);
+}
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select,
+[data-theme="light"] .secondary-btn,
+[data-theme="light"] .logout-btn,
+[data-theme="light"] .check-btn,
+[data-theme="light"] .edit-btn,
+[data-theme="light"] .delete-btn,
+[data-theme="light"] .icon-btn,
+[data-theme="light"] .filter-btn,
+[data-theme="light"] .notifications-panel {
+  background: #fff;
+  color: #111827;
+  border-color: #dbe1ea;
+}
+[data-theme="light"] .subtitle,
+[data-theme="light"] .hero p,
+[data-theme="light"] .task-card p,
+[data-theme="light"] .section-heading span,
+[data-theme="light"] .welcome,
+[data-theme="light"] .task-count span,
+[data-theme="light"] .assignee,
+[data-theme="light"] .due-date {
+  color: #64748b;
+}
+[data-theme="light"] .empty-state {
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+@media (max-width: 900px) {
+  .tools-card {
+    grid-template-columns: 1fr 1fr;
+  }
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+  .kanban-column {
+    min-height: 200px;
+  }
+  .column-body {
+    min-height: 120px;
+  }
+}
+@media (max-width: 620px) {
+  .topbar {
+    padding: 16px 4vw;
+  }
+  .topbar-actions .logout-btn {
+    display: none;
+  }
+  .tools-card {
+    grid-template-columns: 1fr;
+  }
+  .notifications-panel {
+    right: 16px;
+    top: 64px;
+  }
+}
