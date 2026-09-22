@@ -45,7 +45,7 @@ describe("TaskFlow API service", () => {
     );
   });
 
-  test("login stores the returned session", async () => {
+  test("login returns the authenticated session", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue(
@@ -63,16 +63,17 @@ describe("TaskFlow API service", () => {
       )
     );
 
-    await loginUser({ email: "user@example.com", password: "password123" });
+    const session = await loginUser({ email: "user@example.com", password: "password123" });
 
-    expect(localStorage.getItem("token")).toBe("access-123");
-    expect(localStorage.getItem("refreshToken")).toBe("refresh-123");
-    expect(JSON.parse(localStorage.getItem("user") || "{}")).toEqual({
+    expect(session).toEqual({
+      accessToken: "access-123",
+      refreshToken: "refresh-123",
       userId: 7,
       name: "Ashutosh",
       email: "user@example.com",
       role: "USER",
     });
+    expect(localStorage.getItem("token")).toBeNull();
   });
 
   test("refreshes an expired access token and retries the request", async () => {
