@@ -342,21 +342,17 @@ Production configuration is supplied through environment variables.
 
 ## 📸 Screenshots
 
-![TaskFlow Login](docs/screenshots/01-login.png)
+### Dashboard & Task Creation
+![TaskFlow Dashboard](docs/screenshots/current-dashboard.jpg)
 
-![TaskFlow Register](docs/screenshots/02-register.png)
+### Task Actions
+![TaskFlow Task Actions](docs/screenshots/current-task-actions.jpg)
 
-![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
+### In Progress Task
+![TaskFlow In Progress](docs/screenshots/current-in-progress.jpg)
 
-![TaskFlow All Tasks](docs/screenshots/04-all-tasks.png)
-
-![TaskFlow Completed Task](docs/screenshots/05-completed-task.png)
-
-![TaskFlow Task Actions](docs/screenshots/06-task-actions.png)
-
-![TaskFlow Active Filter](docs/screenshots/07-active-filter.png)
-
-![TaskFlow Edit Task](docs/screenshots/08-edit-task.png)
+### Completed Task
+![TaskFlow Completed Task](docs/screenshots/current-completed.jpg)
 
 ---
 
