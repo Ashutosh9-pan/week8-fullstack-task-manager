@@ -439,8 +439,6 @@ textarea {
     padding: 28px;
   }
 }
-
-
 select {
   width: 100%;
   border: 1px solid #27272a;
@@ -729,10 +727,24 @@ select:focus {
 }
 @media (max-width: 620px) {
   .topbar {
-    padding: 16px 4vw;
+    padding: 12px 4vw;
+  }
+  .topbar-actions {
+    gap: 5px;
   }
   .topbar-actions .logout-btn {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .topbar .brand {
+    font-size: 20px;
+  }
+  .welcome {
+    font-size: 11px;
   }
   .tools-card {
     grid-template-columns: 1fr;
