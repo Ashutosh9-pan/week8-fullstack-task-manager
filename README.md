@@ -346,15 +346,14 @@ Production configuration is supplied through environment variables.
 ![TaskFlow Login](docs/screenshots/01-login.png)
 ![TaskFlow Register](docs/screenshots/02-register.png)
 
-### Dashboard & Task Creation
+### Dashboard
 ![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
 
-### Task Management
-![TaskFlow All Tasks](docs/screenshots/04-all-tasks.png)
-![TaskFlow Completed Task](docs/screenshots/05-completed-task.png)
-![TaskFlow Task Actions](docs/screenshots/06-task-actions.png)
-![TaskFlow Active Filter](docs/screenshots/07-active-filter.png)
-![TaskFlow Edit Task](docs/screenshots/08-edit-task.png)
+### Notifications
+![TaskFlow Notifications](docs/screenshots/05-notifications.png)
+
+### Task Board
+![TaskFlow Task Board](docs/screenshots/04-task-management.png)
 
 ## 👨‍💻 Author
 
