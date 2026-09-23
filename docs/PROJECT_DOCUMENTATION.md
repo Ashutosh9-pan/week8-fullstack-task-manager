@@ -229,9 +229,9 @@ Keyboard shortcuts:
 Docker support includes:
 - multi-stage Spring Boot backend image
 - Nginx frontend image
-- SPA fallback configuration
 - PostgreSQL development container
 - Docker Compose orchestration
+- SPA fallback configuration
 
 Run the full local stack with:
 
@@ -239,18 +239,26 @@ docker compose up --build
 
 ## 18. Testing and CI
 
-Backend:
-- Spring Boot context test
-- H2 isolated test database
+Backend tests include:
+- Spring Boot application context loading
+- AuthService unit tests for registration, password rejection, refresh rotation and rate limiting
+- TaskService unit tests for creation, search/filter/sort, access scope, update and delete
+- Security integration tests for protected task/admin endpoints, public health endpoint and USER-role admin rejection
+- Authentication integration tests covering registration, login and login after logout
+- isolated H2 test database configuration for integration tests
 
-Frontend:
+Frontend tests include:
 - Vitest
 - React Testing Library
-- route rendering test
+- unauthenticated route rendering
+- API query and payload behavior
+- login response handling
+- access-token refresh and retry
+- logout session cleanup
 - TypeScript typecheck
 - production build
 
-GitHub Actions runs backend tests plus frontend typecheck, unit tests and build on main/pull-request workflows.
+GitHub Actions runs backend tests plus frontend typecheck, unit tests and production build on pushes and pull requests to main.
 
 ## 19. Screenshots
 
