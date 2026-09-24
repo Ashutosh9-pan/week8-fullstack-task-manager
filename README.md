@@ -301,6 +301,8 @@ cd backend
 mvn clean test
 ```
 
+Backend coverage includes JUnit/Mockito unit tests, Spring Boot integration/security tests, RestAssured API tests, and Testcontainers PostgreSQL migration tests.
+
 Frontend:
 
 ```bash
@@ -309,9 +311,12 @@ npm install
 npm run typecheck
 npm test
 npm run build
+npm run test:e2e
 ```
 
-GitHub Actions runs backend tests plus frontend typecheck, tests, and production build on pushes and pull requests to `main`.
+Frontend coverage includes Vitest + React Testing Library, MSW API mocks, axe-core accessibility checks, and Cypress browser E2E tests.
+
+GitHub Actions runs backend tests plus frontend lint, typecheck, tests, build, and Cypress E2E tests on pushes and pull requests to `main`.
 
 ---
 
