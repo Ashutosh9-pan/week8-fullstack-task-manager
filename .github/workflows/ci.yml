@@ -44,3 +44,14 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Cypress E2E tests
+        run: |
+          npm run dev -- --host 127.0.0.1 > /tmp/taskflow-vite.log 2>&1 &
+          VITE_PID=$!
+          until curl -sf http://127.0.0.1:5173/login > /dev/null; do sleep 2; done
+          set +e
+          npm run test:e2e
+          STATUS=$?
+          kill $VITE_PID || true
+          cat /tmp/taskflow-vite.log
+          exit $STATUS
