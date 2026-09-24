@@ -342,18 +342,20 @@ Production configuration is supplied through environment variables.
 
 ## 📸 Screenshots
 
-### Login & Registration
-![TaskFlow Login](docs/screenshots/01-login.png)
-![TaskFlow Register](docs/screenshots/02-register.png)
+### Login
+![TaskFlow Login](docs/screenshots/01-login.webp)
+
+### Registration
+![TaskFlow Register](docs/screenshots/02-register.webp)
 
 ### Dashboard
-![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
+![TaskFlow Dashboard](docs/screenshots/03-dashboard.webp)
 
-### All Tasks
-![TaskFlow All Tasks](docs/screenshots/04-all-tasks.png)
+### Task Board
+![TaskFlow Task Board](docs/screenshots/04-task-board.webp)
 
-### Completed Task
-![TaskFlow Completed Task](docs/screenshots/05-completed-task.png)
+### Notifications
+![TaskFlow Notifications](docs/screenshots/05-notifications.webp)
 
 ## 👨‍💻 Author
 
