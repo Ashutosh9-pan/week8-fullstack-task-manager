@@ -266,25 +266,22 @@ docker compose up --build
 ## 18. Testing and CI
 
 Backend tests include:
-- Spring Boot application context loading
-- AuthService unit tests for registration, password rejection, refresh rotation and rate limiting
-- TaskService unit tests for creation, search/filter/sort, access scope, update and delete
-- Security integration tests for protected task/admin endpoints, public health endpoint and USER-role admin rejection
-- Authentication integration tests covering registration, login and login after logout
-- isolated H2 test database configuration for integration tests
+- JUnit and Mockito unit tests for AuthService and TaskService
+- Spring Boot integration tests for authentication and security
+- RestAssured HTTP API tests for health and protected endpoints
+- Testcontainers PostgreSQL migration test covering all Flyway migrations
+- H2-backed integration tests for fast application-context coverage
 
 Frontend tests include:
-- Vitest
-- React Testing Library
-- unauthenticated route rendering
-- API query and payload behavior
-- login response handling
-- access-token refresh and retry
-- logout session cleanup
+- Vitest component and service tests
+- React Testing Library rendering/integration coverage
+- MSW request interception for API mock testing
+- axe-core automated accessibility checks
+- Cypress browser E2E coverage for authentication navigation and validation
 - TypeScript typecheck
 - production build
 
-GitHub Actions runs backend tests plus frontend typecheck, unit tests and production build on pushes and pull requests to main.
+GitHub Actions runs backend tests plus frontend lint, typecheck, unit tests, build, and Cypress E2E tests on pushes and pull requests to main.
 
 ## 19. Screenshots
 
