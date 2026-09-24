@@ -349,11 +349,11 @@ Production configuration is supplied through environment variables.
 ### Dashboard
 ![TaskFlow Dashboard](docs/screenshots/03-dashboard.png)
 
-### Notifications
-![TaskFlow Notifications](docs/screenshots/05-notifications.png)
+### All Tasks
+![TaskFlow All Tasks](docs/screenshots/04-all-tasks.png)
 
-### Task Board
-![TaskFlow Task Board](docs/screenshots/04-task-management.png)
+### Completed Task
+![TaskFlow Completed Task](docs/screenshots/05-completed-task.png)
 
 ## 👨‍💻 Author
 
