@@ -1,0 +1,35 @@
+package com.ashutosh.taskmanager;
+
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@Testcontainers
+class DatabaseMigrationTest {
+
+    @Container
+    static final PostgreSQLContainer<?> postgres =
+            new PostgreSQLContainer<>("postgres:18-alpine");
+
+    @Test
+    void allDatabaseMigrationsApplyCleanly() {
+        Flyway flyway = Flyway.configure()
+                .dataSource(
+                        postgres.getJdbcUrl(),
+                        postgres.getUsername(),
+                        postgres.getPassword())
+                .locations("classpath:db/migration")
+                .load();
+
+        var result = flyway.migrate();
+
+        assertEquals(6, result.migrationsExecuted);
+        assertNotNull(flyway.info().current());
+        assertEquals(6, flyway.info().applied().length);
+    }
+}
