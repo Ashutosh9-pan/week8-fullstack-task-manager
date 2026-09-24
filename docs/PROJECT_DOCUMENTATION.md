@@ -51,7 +51,33 @@ PostgreSQL stores users, tasks and refresh tokens.
 
 Flyway manages schema changes using versioned migrations.
 
-## 4. Authentication
+## 4. Component Hierarchy & Data Flow
+
+```mermaid
+flowchart TD
+    A[App / Router] --> B[AuthProvider]
+    B --> C[Login / Register]
+    B --> D[Dashboard]
+    D --> E[Task Form]
+    D --> F[Task Board]
+    D --> G[Search / Filter / Sort]
+    D --> H[Notifications]
+    D --> I[Theme / Offline State]
+    E --> J[API Service]
+    F --> J
+    G --> J
+    J --> K[Spring Boot REST Controllers]
+    K --> L[Auth / Task Services]
+    L --> M[Spring Security + JWT]
+    L --> N[PostgreSQL via JPA]
+    L --> O[Flyway Migrations]
+    D -. WebSocket .-> P[Task WebSocket Handler]
+    P --> K
+```
+
+**Data flow:** The React UI uses the shared authentication context and API service to call protected Spring Boot REST endpoints. The backend validates JWTs, applies role/task access rules, persists data through JPA/PostgreSQL, and broadcasts task-change events through WebSocket. The dashboard reacts to those events by refreshing authenticated task data.
+
+## 5. Authentication
 
 ### Registration
 1. User submits name, email and password.
