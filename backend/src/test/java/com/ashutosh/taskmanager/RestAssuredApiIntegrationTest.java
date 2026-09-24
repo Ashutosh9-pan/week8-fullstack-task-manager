@@ -3,7 +3,7 @@ package com.ashutosh.taskmanager;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.test.autoconfigure.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.hamcrest.Matchers.equalTo;
