@@ -15,7 +15,7 @@ describe("Login accessibility", () => {
       </BrowserRouter>,
     );
 
-    const results = await axe(container);
+    const results = await axe.run(container);
     expect(results.violations).toEqual([]);
   });
 });
